@@ -8,6 +8,7 @@ export class CountriesController {
 
   @Get()
   public getCountries(@Query() getCountriesList: GetCountriesList) {
-    return this.countriesService.getCountries(getCountriesList);
+    const { name, code } = getCountriesList;
+    return this.countriesService.getCountries(name, code);
   }
 }
