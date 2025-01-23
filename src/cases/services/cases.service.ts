@@ -8,9 +8,14 @@ export class CasesService {
   private countries = countries;
 
   getCases(fromDate?: string, toDate?: string, countryCode?: string) {
-    let result = Object.keys(this.timeseries).map((country) => {
-      const data = this.timeseries[country];
-      const total = data.reduce(
+    if (!countryCode && !fromDate && !toDate) {
+      let allData = [];
+
+      Object.keys(this.timeseries).forEach((country) => {
+        allData = allData.concat(this.timeseries[country]);
+      });
+
+      const total = allData.reduce(
         (acc, record) => {
           acc.confirmed += record.confirmed;
           acc.deaths += record.deaths;
@@ -19,40 +24,53 @@ export class CasesService {
         },
         { confirmed: 0, deaths: 0, recovered: 0 },
       );
-      return { country, ...total };
-    });
+
+      return total;
+    }
 
     if (countryCode) {
       const countryName = Object.keys(this.countries).find(
         (key) => this.countries[key].code === countryCode,
       );
-      result = result.filter((entry) => entry.country === countryName);
-    }
 
-    if (fromDate && toDate) {
-      const from = fromDate ? new Date(fromDate) : new Date('2000-01-01');
-      const to = toDate ? new Date(toDate) : new Date();
+      let countryData = this.timeseries[countryName];
 
-      result = result.map((entry) => {
-        const filteredData = this.timeseries[entry.country].filter((record) => {
+      if (fromDate || toDate) {
+        const from = fromDate ? new Date(fromDate) : new Date('2000-01-01');
+        const to = toDate ? new Date(toDate) : new Date();
+
+        countryData = countryData.filter((record) => {
           const recordDate = new Date(record.date);
           return recordDate >= from && recordDate <= to;
         });
+      }
 
-        const total = filteredData.reduce(
-          (acc, record) => {
-            acc.confirmed += record.confirmed;
-            acc.deaths += record.deaths;
-            acc.recovered += record.recovered;
-            return acc;
-          },
-          { confirmed: 0, deaths: 0, recovered: 0 },
-        );
-
-        return { country: entry.country, ...total };
-      });
+      return {
+        country: countryName,
+        data: countryData,
+      };
     }
 
-    return result;
+    const filteredData = [];
+
+    Object.keys(this.timeseries).forEach((country) => {
+      const countryData = this.timeseries[country];
+      const from = fromDate ? new Date(fromDate) : new Date('2000-01-01');
+      const to = toDate ? new Date(toDate) : new Date();
+
+      const dataInRange = countryData.filter((record) => {
+        const recordDate = new Date(record.date);
+        return recordDate >= from && recordDate <= to;
+      });
+
+      if (dataInRange.length > 0) {
+        filteredData.push({
+          country,
+          data: dataInRange,
+        });
+      }
+    });
+
+    return filteredData;
   }
 }
