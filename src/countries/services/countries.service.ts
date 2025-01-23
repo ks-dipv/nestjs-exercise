@@ -9,10 +9,7 @@ export class CountriesService {
 
     if (name) {
       name = name.toLowerCase();
-      // const cnt = Object.keys(result).filter((key) => {
-      //   return key.toLowerCase().includes(name);
-      // });
-      // return Object.entries(result).filter(([key]) => cnt.includes(key));
+
       for (const [key, value] of result) {
         if (key.toLowerCase().includes(name)) {
           p.push([key, value]);

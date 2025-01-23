@@ -5,15 +5,14 @@ import cases from '../../data/timeseries.json';
 export class CountrycasesService {
   private timeseries = cases;
   getCountryCase(
-    fromDate: string,
-    toDate: string,
-    confirmedGte: number,
-    confirmedLte: number,
+    fromDate?: string,
+    toDate?: string,
+    confirmedGte?: number,
+    confirmedLte?: number,
   ) {
     const response = [];
 
     for (const [country, data] of Object.entries(this.timeseries)) {
-      // Filter data by date range
       const filteredData = data.filter((entry) => {
         const entryDate = new Date(entry.date);
 
