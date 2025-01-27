@@ -5,6 +5,7 @@ import {
   ArrayNotEmpty,
   IsNumber,
 } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 
 export class GetExcelDto {
@@ -13,10 +14,18 @@ export class GetExcelDto {
   @IsArray()
   @IsString({ each: true })
   @ArrayNotEmpty()
+  @ApiPropertyOptional({
+    description: 'Enter the ISO Code',
+    example: 'In',
+  })
   isoCodes?: string[];
 
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
+  @ApiPropertyOptional({
+    description: 'Enter the year',
+    example: 2021,
+  })
   year?: number;
 }
