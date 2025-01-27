@@ -7,7 +7,7 @@ export class getCountryCases {
   @IsDateString()
   @ApiPropertyOptional({
     description: 'Enter the starting date',
-    example: 'India',
+    example: '2020-01-11',
   })
   fromDate?: string;
 
@@ -15,7 +15,7 @@ export class getCountryCases {
   @IsDateString()
   @ApiPropertyOptional({
     description: 'Enter the ending date',
-    example: 'India',
+    example: '2020-01-25',
   })
   toDate?: string;
 

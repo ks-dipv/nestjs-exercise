@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsDateString, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Max,
+  Min,
+} from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class GetTopCountries {
@@ -20,12 +27,14 @@ export class GetTopCountries {
   toDate?: string;
 
   @Type(() => Number)
-  @IsOptional()
   @IsNumber()
+  @Min(1)
+  @Max(15)
+  @IsNotEmpty()
   @ApiPropertyOptional({
     description:
       'Enter the number fot top N countries with highest number of confirmed cases',
     example: 10,
   })
-  top?: number;
+  top: number;
 }

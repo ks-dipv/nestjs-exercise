@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as timeseriesData from '../../data/timeseries.json';
+import timeseriesData from '../../data/timeseries.json';
 import countriesData from '../../data/countries.json';
 import { Workbook } from 'exceljs';
 

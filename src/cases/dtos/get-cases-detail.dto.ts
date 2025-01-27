@@ -6,7 +6,7 @@ export class GetCasesDto {
   @IsDateString()
   @ApiPropertyOptional({
     description: 'Enter the starting date',
-    example: 'India',
+    example: '2020-01-11',
   })
   fromDate?: string;
 
@@ -14,7 +14,7 @@ export class GetCasesDto {
   @IsDateString()
   @ApiPropertyOptional({
     description: 'Enter the ending date',
-    example: 'India',
+    example: '2021-01-25',
   })
   toDate?: string;
 
@@ -22,7 +22,7 @@ export class GetCasesDto {
   @IsString()
   @ApiPropertyOptional({
     description: 'Enter the country code',
-    example: 'India',
+    example: 'IN',
   })
   countryCode?: string;
 }

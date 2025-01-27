@@ -16,7 +16,7 @@ export class GetExcelDto {
   @ArrayNotEmpty()
   @ApiPropertyOptional({
     description: 'Enter the ISO Code',
-    example: 'In',
+    example: 'IN',
   })
   isoCodes?: string[];
 
